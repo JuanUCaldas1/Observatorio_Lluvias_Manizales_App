@@ -5,8 +5,6 @@ services:
       POSTGRES_DB: observatorio
       POSTGRES_USER: observatorio
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-observatorio-local}
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -21,19 +19,17 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/observatorio
       SPRING_DATASOURCE_USERNAME: observatorio
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-observatorio-local}
-      APP_CORS_ORIGINS: http://localhost:5173
+      APP_CORS_ORIGINS: "*"
     ports:
-      - "8080:8080"
+      - "${PORT_BACK:-8084}:8080"
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
     build: ./frontend
-    environment:
-      VITE_API_URL: http://localhost:8080
     ports:
-      - "5173:5173"
+      - "${PORT_FRONT:-8081}:5173"
     depends_on:
       - backend
 
