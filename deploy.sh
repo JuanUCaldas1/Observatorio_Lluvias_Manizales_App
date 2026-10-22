@@ -24,6 +24,8 @@ esac
 
 echo "Desplegando ambiente $ENVIRONMENT en Frontend: $PORT_FRONT, Backend: $PORT_BACK..."
 
-# Tumbar contenedores previos del ambiente y volver a levantar
-PORT_FRONT=$PORT_FRONT PORT_BACK=$PORT_BACK docker compose -p "app-$ENVIRONMENT" down
-PORT_FRONT=$PORT_FRONT PORT_BACK=$PORT_BACK docker compose -p "app-$ENVIRONMENT" up -d --build
+# Definir variables explícitas para Docker Compose
+export COMPOSE_PROJECT_NAME="app-$ENVIRONMENT"
+
+docker compose down
+docker compose up -d --build
