@@ -24,8 +24,7 @@ esac
 
 echo "Desplegando ambiente $ENVIRONMENT en Frontend: $PORT_FRONT, Backend: $PORT_BACK..."
 
-# Definir variables explícitas para Docker Compose
 export COMPOSE_PROJECT_NAME="app-$ENVIRONMENT"
 
-docker compose down
-docker compose up -d --build
+docker-compose down
+docker-compose up -d --build
